@@ -12,7 +12,7 @@ export default async function Home() {
       <ThemeToggle />
       {session ? (
         <p>{session.user.name}</p>
-      ): <Button>Logout</Button>}
+      ): <Button>Login</Button>}
     </div>
   );
 }
