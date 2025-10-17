@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -43,7 +45,7 @@ export default function LoginPage() {
               <span>Loading...</span>
             </>
           ) : (
-            <>
+            <> 
               <GithubIcon className="size-4" />
               Sign in with Github
             </>
