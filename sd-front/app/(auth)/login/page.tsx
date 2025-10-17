@@ -4,24 +4,28 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authClient } from "@/lib/auth-client";
 import { GithubIcon } from "lucide-react";
+import { useTransition } from "react";
 import { toast } from "sonner";
 
 export default function LoginPage() {
+  const [githubPending, startGithubTransition] = useTransition();
   async function signInWithGithub() {
-    await authClient.signIn.social({
-      provider: "github",
-      callbackURL: "/",
-      fetchOptions: {
-        onSuccess: ()=> {
-          toast.success("Successfully signed in with Github, you will be redirected...");
-        },
-        onError: (error) => {
-          toast.error(`Failed to sign in with Github: ${error.error}`);
+    startGithubTransition(async () => {
+      await authClient.signIn.social({
+        provider: "github",
+        callbackURL: "/",
+        fetchOptions: {
+          onSuccess: ()=> {
+            toast.success("Successfully signed in with Github, you will be redirected...");
+          },
+          onError: (error) => {
+            toast.error(`Failed to sign in with Github: ${error.error}`);
+          }
         }
-      }
+      });
     });
   }
-  
+
   return (
     <Card>
       <CardHeader>
@@ -29,7 +33,10 @@ export default function LoginPage() {
         <CardDescription>Login to your Github or Email account</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        <Button className="w-full" variant={"outline"}>
+        <Button 
+          onClick={signInWithGithub} className="w-full" variant={"outline"}
+          disabled={githubPending}
+        >
           <GithubIcon className="size-4" />
           Sign in with Github
           </Button>
