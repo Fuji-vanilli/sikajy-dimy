@@ -1,17 +1,23 @@
+"use client";
+ 
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/themeToggle";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+import { authClient } from "@/lib/auth-client";
 
-export default async function Home() {
-  const session= await auth.api.getSession({
-    headers: await headers(),
-  });
+export default function Home() {
+  const { data: session } = authClient.useSession();
+  async function signOut() {
+    await authClient.signOut();
+  }
+
   return (
     <div>
       <ThemeToggle />
       {session ? (
-        <p>{session.user.name}</p>
+        <div>
+          <p>{session.user.name}</p>
+          <Button onClick={signOut}>Sign Out</Button>
+        </div>
       ): <Button>Login</Button>}
     </div>
   );

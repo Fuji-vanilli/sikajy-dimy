@@ -1,13 +1,17 @@
-"use client";
-
+import { auth } from "@/lib/auth";
 import { LoginForm } from "./_components/LoginForm";
+import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 
-
-
-export default function LoginPage() {
-  
+export default async function LoginPage() {
+  const session= await auth.api.getSession({
+    headers: await headers(),
+  });
  
-
+  if (session) {
+    return redirect("/");
+  }
+  
   return (
     <LoginForm />
   );
