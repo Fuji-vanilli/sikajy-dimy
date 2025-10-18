@@ -42,7 +42,7 @@ export function LoginForm() {
           fetchOptions: {
             onSuccess: ()=> {
               toast.success("Email sent");
-              router.push(`/verify-request`)
+              router.push(`/verify-request?email=${email}`);
             },
             onError: ()=> {
               toast.error("Error sending email!")
@@ -94,7 +94,7 @@ export function LoginForm() {
             </div>
             <Button 
               onClick={signInWithEmail}
-              disabled={emailPending}>
+              disabled={!email || !email.includes("@") || emailPending}>
                 {emailPending? (
                   <>
                     <Loader2 className="size-4 animate-spin" />
