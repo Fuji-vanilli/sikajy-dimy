@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authClient } from "@/lib/auth-client";
-import { GithubIcon, Loader, Loader2 } from "lucide-react";
+import { GithubIcon, Loader, Loader2, Send } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useTransition } from "react";
@@ -100,7 +100,12 @@ export function LoginForm() {
                     <Loader2 className="size-4 animate-spin" />
                     <p>Loading ...</p>
                   </>
-                ) : <p>Continue with email</p>}
+                ) : (
+                      <>
+                        <Send  className="size-4"/>
+                        <p>Continue with email</p>
+                      </>
+                    )}
             </Button>          
               </div>
       </CardContent>
