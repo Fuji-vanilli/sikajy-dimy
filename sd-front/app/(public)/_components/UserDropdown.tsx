@@ -1,14 +1,10 @@
 import {
     BookOpen,
-  BookOpenIcon,
-  ChevronDownIcon,
-  Home,
-  Layers2Icon,
-  LayoutDashboard,
-  LogOutIcon,
-  PinIcon,
-  Settings,
-  UserPenIcon,
+    ChevronDownIcon,
+    Home,
+    LayoutDashboard,
+    LogOutIcon,
+    Settings,
 } from "lucide-react"
 
 import {
@@ -16,7 +12,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -28,16 +24,25 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { authClient } from "@/lib/auth-client"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { toast } from "sonner"
+import { handleSingOut } from "@/hooks/user-sign-out"
 
-export default function UserDropdown() {
-    const {data, isPending} = authClient.useSession();
+interface iAppProps {
+    email: string;
+    name: string;
+    image: string;
+}
+
+export default function UserDropdown({email, name, image}: iAppProps) {
+    const signOut = handleSingOut();
     return (
         <DropdownMenu>
         <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-auto p-0 hover:bg-transparent">
             <Avatar>
-                <AvatarImage src="/origin/avatar.jpg" alt="Profile image" />
-                <AvatarFallback>F</AvatarFallback>
+                <AvatarImage src={image} alt="Profile image" />
+                <AvatarFallback>{name.charAt(0).toUpperCase()}</AvatarFallback>
             </Avatar>
             <ChevronDownIcon
                 size={16}
@@ -49,10 +54,10 @@ export default function UserDropdown() {
         <DropdownMenuContent align="end" className="max-w-64">
             <DropdownMenuLabel className="flex min-w-0 flex-col">
                 <span className="truncate text-sm font-medium text-foreground">
-                    Keith Kennedy
+                    {name}
                 </span>
                 <span className="truncate text-xs font-normal text-muted-foreground">
-                    k.kennedy@coss.com
+                    {email}
                 </span>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
@@ -70,7 +75,7 @@ export default function UserDropdown() {
                     </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                    <Link href= "/dashboard">
+                    <Link href= "/admin">
                         <LayoutDashboard size={16} className="opacity-60" aria-hidden="true" />
                         <span>Dashboard</span>
                     </Link>
@@ -86,11 +91,9 @@ export default function UserDropdown() {
                 </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-                <Link>
-                    <LogOutIcon size={16} className="opacity-60" aria-hidden="true" />
-                    <span>Logout</span>
-                </Link>
+            <DropdownMenuItem onClick={handleSingOut}>
+                <LogOutIcon size={16} className="opacity-60" aria-hidden="true" />
+                <span>Logout</span>
             </DropdownMenuItem>
         </DropdownMenuContent>
         </DropdownMenu>
