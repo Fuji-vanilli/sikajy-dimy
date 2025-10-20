@@ -1,6 +1,6 @@
 "use client";
 
-import { useEditor } from "@tiptap/react";
+import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { Menubar } from "./Menubar";
 import TextAlign from "@tiptap/extension-text-align";
@@ -13,11 +13,17 @@ export function RichTextEditor() {
                 types: ["heading", "paragraph"],
             }),
         ],
+        editorProps: {
+            attributes: {
+                class: "min-h-[300px] p-4"
+            }
+        },
         immediatelyRender: false,
     })
     return (
-        <div>
+        <div className="w-full border border-input rounded-lg overflow-hidden dark:bg-input/30">
             <Menubar editor={editor} />
+            <EditorContent editor={editor}/>
         </div>
     );
 }

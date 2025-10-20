@@ -5,10 +5,11 @@ import {
     TooltipProvider, 
     TooltipTrigger 
 } from "../ui/tooltip";
-import { Bold, Heading1Icon, Heading2Icon, Heading3Icon, HeadingIcon, Italic, ListIcon, ListOrdered, Strikethrough, TextAlignCenter, TextAlignEnd, TextAlignStart } from "lucide-react";
+import { Bold, Heading1Icon, Heading2Icon, Heading3Icon, HeadingIcon, Italic, ListIcon, ListOrdered, Redo, Strikethrough, TextAlignCenter, TextAlignEnd, TextAlignStart, Undo } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Toggle } from "../ui/toggle";
 import { text } from "stream/consumers";
+import { Button } from "../ui/button";
 
 interface iAppProps {
     editor: Editor | null;
@@ -20,7 +21,7 @@ export function Menubar({ editor }: iAppProps) {
     }
 
     return (
-        <div className="border border-input rounded-t-lg p-2 bg-card flex flex-wrap gap-1 items-center">
+        <div className="border border-input border-t-0 border-x-0 rounded-t-lg p-2 bg-card flex flex-wrap gap-1 items-center">
             <TooltipProvider>
                 <div className="flex flex-wrap gap-1">
                     <Tooltip>
@@ -198,6 +199,37 @@ export function Menubar({ editor }: iAppProps) {
                             </Toggle>
                         </TooltipTrigger>
                         <TooltipContent>Align Right</TooltipContent>
+                    </Tooltip>
+                </div>
+                <div className="w-px h-6 bg-border mx-2 "></div>
+                <div className="flex flex-wrap gap-1">
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button 
+                                size="sm" 
+                                variant="ghost" 
+                                type="button" 
+                                onClick={() => editor.chain().focus().undo().run()}
+                                disabled={!editor.can().undo()}
+                            >
+                                <Undo />
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>Undo</TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button 
+                                size="sm" 
+                                variant="ghost" 
+                                type="button" 
+                                onClick={() => editor.chain().focus().redo().run()}
+                                disabled={!editor.can().redo()}
+                            >
+                                <Redo />
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>Redo</TooltipContent>
                     </Tooltip>
                 </div>
             </TooltipProvider>
