@@ -5,10 +5,13 @@ import StarterKit from "@tiptap/starter-kit";
 import { Menubar } from "./Menubar";
 
 export function RichTextEditor() {
-    const editor = useEditor({extensions: [StarterKit]})
+    const editor = useEditor({
+        extensions: [StarterKit],
+        immediatelyRender: false,
+    })
     return (
         <div>
-            <Menubar />
+            <Menubar editor={editor}/>
         </div>
     );
 }
