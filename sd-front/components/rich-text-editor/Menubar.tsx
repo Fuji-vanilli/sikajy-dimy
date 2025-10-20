@@ -5,7 +5,7 @@ import {
     TooltipProvider, 
     TooltipTrigger 
 } from "../ui/tooltip";
-import { Bold, Heading1Icon, Heading2Icon, Heading3Icon, HeadingIcon, Italic, Strikethrough } from "lucide-react";
+import { Bold, Heading1Icon, Heading2Icon, Heading3Icon, HeadingIcon, Italic, ListIcon, ListOrdered, Strikethrough } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Toggle } from "../ui/toggle";
 
@@ -114,6 +114,38 @@ export function Menubar({ editor }: iAppProps) {
                             </Toggle>
                         </TooltipTrigger>
                         <TooltipContent>Heading 3</TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Toggle 
+                                size="sm" 
+                                pressed={editor.isActive("bulletList")}
+                                onPressedChange={() => 
+                                    editor.chain().focus().toggleBulletList().run()}
+                                className={cn(
+                                    editor.isActive("bulletList") && "bg-muted text-muted-foreground"
+                                )}
+                            >
+                                <ListIcon />
+                            </Toggle>
+                        </TooltipTrigger>
+                        <TooltipContent>Bullet List</TooltipContent>
+                    </Tooltip>
+                                        <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Toggle 
+                                size="sm" 
+                                pressed={editor.isActive("orderedList")}
+                                onPressedChange={() => 
+                                    editor.chain().focus().toggleOrderedList().run()}
+                                className={cn(
+                                    editor.isActive("orderedList") && "bg-muted text-muted-foreground"
+                                )}
+                            >
+                                <ListOrdered />
+                            </Toggle>
+                        </TooltipTrigger>
+                        <TooltipContent>Ordered List</TooltipContent>
                     </Tooltip>
                 </div>
             </TooltipProvider>
