@@ -5,9 +5,10 @@ import {
     TooltipProvider, 
     TooltipTrigger 
 } from "../ui/tooltip";
-import { Bold, Heading1Icon, Heading2Icon, Heading3Icon, HeadingIcon, Italic, ListIcon, ListOrdered, Strikethrough } from "lucide-react";
+import { Bold, Heading1Icon, Heading2Icon, Heading3Icon, HeadingIcon, Italic, ListIcon, ListOrdered, Strikethrough, TextAlignCenter, TextAlignEnd, TextAlignStart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Toggle } from "../ui/toggle";
+import { text } from "stream/consumers";
 
 interface iAppProps {
     editor: Editor | null;
@@ -19,9 +20,9 @@ export function Menubar({ editor }: iAppProps) {
     }
 
     return (
-        <div>
+        <div className="border border-input rounded-t-lg p-2 bg-card flex flex-wrap gap-1 items-center">
             <TooltipProvider>
-                <div>
+                <div className="flex flex-wrap gap-1">
                     <Tooltip>
                         <TooltipTrigger asChild>
                             <Toggle 
@@ -131,7 +132,7 @@ export function Menubar({ editor }: iAppProps) {
                         </TooltipTrigger>
                         <TooltipContent>Bullet List</TooltipContent>
                     </Tooltip>
-                                        <Tooltip>
+                    <Tooltip>
                         <TooltipTrigger asChild>
                             <Toggle 
                                 size="sm" 
@@ -146,6 +147,57 @@ export function Menubar({ editor }: iAppProps) {
                             </Toggle>
                         </TooltipTrigger>
                         <TooltipContent>Ordered List</TooltipContent>
+                    </Tooltip>
+                </div>
+                <div className="w-px h-6 bg-border mx-2"></div>
+                <div className="flex flex-wrap gap-1">
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Toggle 
+                                size="sm" 
+                                pressed={editor.isActive({textAlign: 'left'})}
+                                onPressedChange={() => 
+                                    editor.chain().focus().setTextAlign('left').run()}
+                                className={cn(
+                                    editor.isActive({textAlign: 'left'}) && "bg-muted text-muted-foreground"
+                                )}
+                            >
+                                <TextAlignStart />
+                            </Toggle>
+                        </TooltipTrigger>
+                        <TooltipContent>Align Left</TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Toggle 
+                                size="sm" 
+                                pressed={editor.isActive({textAlign: 'center'})}
+                                onPressedChange={() => 
+                                    editor.chain().focus().setTextAlign('center').run()}
+                                className={cn(
+                                    editor.isActive({textAlign: 'center'}) && "bg-muted text-muted-foreground"
+                                )}
+                            >
+                                <TextAlignCenter />
+                            </Toggle>
+                        </TooltipTrigger>
+                        <TooltipContent>Align Center</TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Toggle 
+                                size="sm" 
+                                pressed={editor.isActive({textAlign: 'right'})}
+                                onPressedChange={() => 
+                                    editor.chain().focus().setTextAlign('right').run()}
+                                className={cn(
+                                    editor.isActive({textAlign: 'right'}) && "bg-muted text-muted-foreground"
+                                )}
+                            >
+                                <TextAlignEnd />
+                            </Toggle>
+                        </TooltipTrigger>
+                        <TooltipContent>Align Right</TooltipContent>
                     </Tooltip>
                 </div>
             </TooltipProvider>
