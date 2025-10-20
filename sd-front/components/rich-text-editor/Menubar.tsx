@@ -1,7 +1,5 @@
 export function Menubar() {
     return (
-        <div>
-            <h1>Hello</h1>
-        </div>
-    )
-}
+        <h1>Hello from the menu bar</h1>
+    );
+}  

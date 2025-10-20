@@ -13,8 +13,6 @@ import { Input } from "@/components/ui/input";
 import  slugify  from "slugify";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { CourseLevel } from "@/lib/generated/prisma";
-import { RichTextEditor } from "@/components/rich-text-editor/Editor";
 
 export default function CourseCreationPage() {
     const form= useForm<CourseSchemaType> ({
@@ -116,7 +114,7 @@ export default function CourseCreationPage() {
                                         <FormItem className="w-full">
                                             <FormLabel>Description</FormLabel>
                                             <FormControl>
-                                                <RichTextEditor />
+                                                
                                                 {/*<Textarea 
                                                     placeholder="description" 
                                                     {...field} 
