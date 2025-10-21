@@ -3,6 +3,8 @@ import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { NextResponse } from "next/server";
 import z, { size } from "zod";
 import { v4 as uuidv4 } from "uuid";
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import { S3 } from "@/lib/S3Client";
 
 export const fileUploadSchema = z.object({
     fileName: z.string().min(1, {message: "Flilename required"}),
@@ -27,7 +29,18 @@ export async function POST(request: Request) {
             ContentType: contentType,
             ContentLength: size,
             Key: uniqueKey
-        })
+        });
+
+        const presignedUrl= await getSignedUrl(S3, command, {
+            expiresIn: 360,
+        });
+
+        const response = {
+            presignedUrl,
+            key: uniqueKey
+        };
+
+        return NextResponse.json(response);
     } catch (error) {
         
     }
