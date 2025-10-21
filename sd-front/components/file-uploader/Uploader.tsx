@@ -6,6 +6,7 @@ import { Card, CardContent } from "../ui/card";
 import { cn } from "@/lib/utils";
 import { RenderEmptyState, RenderErrorState } from "./RenderState";
 import { toast } from "sonner";
+import { v4 as uuidv4 } from "uuid";
 
 interface UploaderState {
     id: string | null;
@@ -20,10 +21,29 @@ interface UploaderState {
 }
 
 export function Uploader() {
-    const [fileState, SetFileState] = useState();
+    const [fileState, SetFileState] = useState<UploaderState>({
+        error: false,
+        file: null,
+        id: null,
+        uploading: false,
+        progress: 0,
+        isDeleting: false,
+        fileType: "image",
+    });
     const onDrop = useCallback((acceptedFiles: File[]) => {
-        console.log(acceptedFiles);
-        
+        if (acceptedFiles.length > 0) {
+            const file = acceptedFiles[0];
+            SetFileState({
+                file: file,
+                uploading: false,
+                progress: 0,
+                objectURL: URL.createObjectURL(file),
+                id: uuidv4(),
+                isDeleting: false,
+                error: false,
+                fileType: "image",
+            })
+        }
     }, [])
 
     function rejectedFiles(fileRejection: FileRejection[]) {
