@@ -1,7 +1,11 @@
 import { createEnv } from "@t3-oss/env-nextjs";
-import { z } from "zod";
+import { NEVER, z } from "zod";
  
 export const env = createEnv({
+  client: {
+    NEXT_PUBLIC_S3_BUCKET_NAME_IMAGE: z.string().min(1),
+  },
+
   server: {
     DATABASE_URL: z.url(),
     BETTER_AUTH_SECRET: z.string().min(1),
@@ -14,11 +18,11 @@ export const env = createEnv({
     AWS_SECRET_ACCESS_KEY: z.string().min(1),
     AWS_ENDPOINT_URL_S3: z.string().min(1),
     AWS_ENDPOINT_URL_IAM: z.string().min(1),
-    AWS_REGION: z.string().min(1),    
+    AWS_REGION: z.string().min(1),
   },
 
   experimental__runtimeEnv: {
-
+    NEXT_PUBLIC_S3_BUCKET_NAME_IMAGE: process.env.NEXT_PUBLIC_S3_BUCKET_NAME_IMAGE,
   }
 
 });
