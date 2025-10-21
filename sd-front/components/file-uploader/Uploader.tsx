@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { RenderEmptyState, RenderErrorState } from "./RenderState";
 import { toast } from "sonner";
 import { v4 as uuidv4 } from "uuid";
+import { ca } from "zod/v4/locales";
 
 interface UploaderState {
     id: string | null;
@@ -30,6 +31,21 @@ export function Uploader() {
         isDeleting: false,
         fileType: "image",
     });
+
+    function uploadFile(file: File) {
+        SetFileState((prevState) => ({
+            ...prevState,
+            uploading: true,
+            progress: 0, 
+        }));
+
+        try {
+            
+        } catch (error) {
+
+        }
+    }
+
     const onDrop = useCallback((acceptedFiles: File[]) => {
         if (acceptedFiles.length > 0) {
             const file = acceptedFiles[0];
