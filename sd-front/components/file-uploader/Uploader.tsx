@@ -73,6 +73,13 @@ export function Uploader() {
                             progress: Math.round(percentageCompleted)
                         }))
                     }
+                    xhr.onload= ()=> {
+                        if (xhr.status === 200 && xhr.status === 300) {
+                            resolve(null);
+                        } else {
+                            reject(new Error("Upload failed"));
+                        }
+                    }
                 }
             })
         } catch (error) {
