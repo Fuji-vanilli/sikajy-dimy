@@ -8,6 +8,7 @@ import { RenderEmptyState, RenderErrorState } from "./RenderState";
 import { toast } from "sonner";
 import { v4 as uuidv4 } from "uuid";
 import { ca } from "zod/v4/locales";
+import { X } from "lucide-react";
 
 interface UploaderState {
     id: string | null;
@@ -89,6 +90,9 @@ export function Uploader() {
                         xhr.onerror= ()=> {
                             reject(new Error("Upload failed"));
                         }
+                        xhr.open("PUT", presignedUrl);
+                        xhr.setRequestHeader("Content-Type", file.type);
+                        xhr.send(file);
                     }
                 }
             })
