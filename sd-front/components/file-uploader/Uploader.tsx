@@ -32,7 +32,7 @@ export function Uploader() {
         fileType: "image",
     });
 
-    function uploadFile(file: File) {
+    async function uploadFile(file: File) {
         SetFileState((prevState) => ({
             ...prevState,
             uploading: true,
@@ -40,7 +40,18 @@ export function Uploader() {
         }));
 
         try {
-            
+            const presignedResponse = await fetch('/api/s3/upload', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json", 
+                },
+                body: JSON.stringify({
+                    fileName: file.name,
+                    contentType: file.type,
+                    size: file.size,
+                    isImage: true,
+                }),
+            })
         } catch (error) {
 
         }
