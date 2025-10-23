@@ -63,7 +63,7 @@ export function Uploader() {
                 return;
             }
             const {presignedUrl, key} = await presignedResponse.json();
-            await new Promise((resolve, reject) => {
+            await new Promise<void>((resolve, reject) => {
                 const xhr= new XMLHttpRequest();
                 xhr.upload.onprogress= (event)=> {
                     if (event.lengthComputable) {
@@ -74,9 +74,19 @@ export function Uploader() {
                         }))
                     }
                     xhr.onload= ()=> {
-                        if (xhr.status === 200 && xhr.status === 300) {
-                            resolve(null);
+                        if (xhr.status === 200 || xhr.status === 300) {
+                            setFileState((prevState) => ({
+                                ...prevState,
+                                progress: 100,
+                                uploading: false,
+                                key: key,
+                            }))
+                            toast.success("File uploaded successfully");
+                            resolve()
                         } else {
+                            reject(new Error("Upload failed"));
+                        }
+                        xhr.onerror= ()=> {
                             reject(new Error("Upload failed"));
                         }
                     }
