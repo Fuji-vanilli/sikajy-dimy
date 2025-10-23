@@ -83,17 +83,17 @@ export function Uploader() {
                                 key: key,
                             }))
                             toast.success("File uploaded successfully");
-                            resolve()
+                            resolve();
                         } else {
                             reject(new Error("Upload failed"));
                         }
-                        xhr.onerror= ()=> {
-                            reject(new Error("Upload failed"));
-                        }
-                        xhr.open("PUT", presignedUrl);
-                        xhr.setRequestHeader("Content-Type", file.type);
-                        xhr.send(file);
+                    };
+                    xhr.onerror= ()=> {
+                        reject(new Error("Upload failed"));
                     }
+                    xhr.open("PUT", presignedUrl);
+                    xhr.setRequestHeader("Content-Type", file.type);
+                    xhr.send(file);
                 }
             })
         } catch  {
@@ -150,6 +150,8 @@ export function Uploader() {
         if (fileState.objectURL) {
             return <h1>uploaded</h1>
         }
+
+        return <RenderEmptyState isDragActive= {isDragActive} />
     }
 
     const {
@@ -175,7 +177,7 @@ export function Uploader() {
         >
             <CardContent className="flex items-center justify-center h-full w-full p-4">
                 <input {...getInputProps()} />
-                <RenderEmptyState isDragActive= {isDragActive} />
+                {renderContent()}
             </CardContent>
         </Card>
     )
