@@ -140,6 +140,18 @@ export function Uploader() {
         }
     }
 
+    function renderContent() {
+        if (fileState.uploading) {
+            return <h1>Uploading...</h1>
+        }
+        if (fileState.error) {
+            return <RenderErrorState />
+        }
+        if (fileState.objectURL) {
+            return <h1>uploaded</h1>
+        }
+    }
+
     const {
         getRootProps, 
         getInputProps, 
