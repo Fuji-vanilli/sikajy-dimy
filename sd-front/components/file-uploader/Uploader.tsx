@@ -96,16 +96,16 @@ export function Uploader() {
                     }
                 }
             })
-        } catch (error) {
-
+        } catch  {
+            toast.error("An error occurred during file upload");
+            setFileState((prevState) => ({
+                ...prevState,
+                uploading: false,
+                progress: 0,
+                error: true,
+            }))
         }
     }
-
-    const onDrop = useCallback((acceptedFiles: File[]) => {
-        if (acceptedFiles.length > 0) {
-            const file = acceptedFiles[0];
-        };
-    });
 
     const onDrop = useCallback((acceptedFiles: File[]) => {
         if (acceptedFiles.length > 0) {
@@ -119,9 +119,10 @@ export function Uploader() {
                 isDeleting: false,
                 error: false,
                 fileType: "image",
-            })
-        }
-    }, [])
+            });
+            uploadFile(file);
+        };
+    }, []);
 
     function rejectedFiles(fileRejection: FileRejection[]) {
         if (fileRejection.length) {
