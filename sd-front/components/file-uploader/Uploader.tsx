@@ -63,7 +63,18 @@ export function Uploader() {
                 return;
             }
             const {presignedUrl, key} = await presignedResponse.json();
-            
+            await new Promise((resolve, reject) => {
+                const xhr= new XMLHttpRequest();
+                xhr.upload.onprogress= (event)=> {
+                    if (event.lengthComputable) {
+                        const percentageCompleted= (event.loaded / event.total) * 100;
+                        setFileState((prevState) => ({
+                            ...prevState,
+                            progress: Math.round(percentageCompleted)
+                        }))
+                    }
+                }
+            })
         } catch (error) {
 
         }
