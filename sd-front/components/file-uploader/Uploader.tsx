@@ -22,7 +22,7 @@ interface UploaderState {
 }
 
 export function Uploader() {
-    const [fileState, SetFileState] = useState<UploaderState>({
+    const [fileState, setFileState] = useState<UploaderState>({
         error: false,
         file: null,
         id: null,
@@ -33,7 +33,7 @@ export function Uploader() {
     });
 
     async function uploadFile(file: File) {
-        SetFileState((prevState) => ({
+        setFileState((prevState) => ({
             ...prevState,
             uploading: true,
             progress: 0, 
@@ -52,6 +52,18 @@ export function Uploader() {
                     isImage: true,
                 }),
             })
+            if (!presignedResponse.ok) {
+                toast.error("Failed to get presigned URL");
+                setFileState((prevState) => ({
+                    ...prevState,
+                    uploading: false,
+                    progress: 0,
+                    error: true,
+                }))
+                return;
+            }
+            const {presignedUrl, key} = await presignedResponse.json();
+            
         } catch (error) {
 
         }
@@ -60,7 +72,13 @@ export function Uploader() {
     const onDrop = useCallback((acceptedFiles: File[]) => {
         if (acceptedFiles.length > 0) {
             const file = acceptedFiles[0];
-            SetFileState({
+        };
+    });
+
+    const onDrop = useCallback((acceptedFiles: File[]) => {
+        if (acceptedFiles.length > 0) {
+            const file = acceptedFiles[0];
+            setFileState({
                 file: file,
                 uploading: false,
                 progress: 0,
