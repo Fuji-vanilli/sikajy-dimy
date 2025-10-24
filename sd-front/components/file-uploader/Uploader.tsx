@@ -60,7 +60,7 @@ export function Uploader() {
                     uploading: false,
                     progress: 0,
                     error: true,
-                }))
+                }));
                 return;
             }
             const {presignedUrl, key} = await presignedResponse.json();
@@ -72,10 +72,10 @@ export function Uploader() {
                         setFileState((prevState) => ({
                             ...prevState,
                             progress: Math.round(percentageCompleted)
-                        }))
+                        }));
                     }
                     xhr.onload= ()=> {
-                        if (xhr.status === 200 || xhr.status === 300) {
+                        if (xhr.status === 200 || xhr.status === 204) {
                             setFileState((prevState) => ({
                                 ...prevState,
                                 progress: 100,
