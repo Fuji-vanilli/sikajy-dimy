@@ -74,7 +74,8 @@ export function Uploader() {
                             progress: Math.round(percentageCompleted)
                         }));
                     }
-                    xhr.onload= ()=> {
+                };
+                                    xhr.onload= ()=> {
                         if (xhr.status === 200 || xhr.status === 204) {
                             setFileState((prevState) => ({
                                 ...prevState,
@@ -94,7 +95,6 @@ export function Uploader() {
                     xhr.open("PUT", presignedUrl);
                     xhr.setRequestHeader("Content-Type", file.type);
                     xhr.send(file);
-                }
             })
         } catch  {
             toast.error("An error occurred during file upload");
